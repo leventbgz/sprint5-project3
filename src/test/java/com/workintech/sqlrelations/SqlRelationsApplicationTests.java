@@ -108,17 +108,17 @@ class SqlRelationsApplicationTests {
 		nurse.setName("Test");
 		nurse.setSurname("Test");
 		nurse.setProficiency("Cardiology");
-		nurseRepository.save(nurse);
+        Nurse savedNurse = nurseRepository.save(nurse);
 
 		Surgery surgery = new Surgery();
-		surgery.setPatientId(savedPatient.getId());
-		surgery.setNurseId(nurse.getId());
-		surgery.setDoctorId(savedDoctor.getId());
+		surgery.setPatient(savedPatient);
+		surgery.setNurse(savedNurse);
+		surgery.setDoctor(savedDoctor);
 		surgeryRepository.save(surgery);
 
 		List<Surgery> surgeryList = surgeryRepository.findAll();
 		Surgery foundSurgery = surgeryList.stream()
-				.filter(surgery1 -> surgery1.getDoctorId() == savedDoctor.getId())
+				.filter(s -> s.getDoctor().getId() == savedDoctor.getId())
 				.collect(Collectors.toList()).get(0);
 
 		assertNotNull(foundSurgery);
@@ -141,13 +141,13 @@ class SqlRelationsApplicationTests {
 		Doctor savedDoctor = doctorRepository.save(doctor);
 
 		Operation operation = new Operation();
-		operation.setPatientId(savedPatient.getId());
-		operation.setDoctorId(savedDoctor.getId());
+		operation.setPatient(savedPatient);
+		operation.setDoctor(savedDoctor);
 		operationRepository.save(operation);
 
 		List<Operation> operationList = operationRepository.findAll();
 		Operation foundOperation = operationList.stream()
-				.filter(operation1 -> operation1.getDoctorId() == 1)
+				.filter(op -> op.getDoctor().getId() == savedDoctor.getId())
 				.collect(Collectors.toList()).get(0);
 
 		assertNotNull(foundOperation);

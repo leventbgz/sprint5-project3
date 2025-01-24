@@ -14,12 +14,17 @@ public class Surgery {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "nurse_id")
-    private long nurseId;
+    @ManyToOne
+    @JoinColumn(name = "nurse_id", nullable = false)
+    private Nurse nurse;
 
-    @Column(name = "patient_id")
-    private long patientId;
+    @ManyToOne
+    @JoinColumn(name = "patient_id", nullable = false)
+    private Patient patient;
 
-    @Column(name = "doctor_id")
-    private long doctorId;
+    @ManyToOne
+    @JoinColumn(name = "doctor_id", nullable = false)
+    private Doctor doctor;
+
+
 }
